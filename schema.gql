@@ -1,0 +1,9 @@
+type Caregiver {
+   firstName: String!
+   lastName: String!
+   telephone: String!
+}
+
+type Query {
+   allCaregivers: [Caregiver!]
+}
