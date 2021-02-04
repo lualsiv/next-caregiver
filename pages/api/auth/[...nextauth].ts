@@ -7,7 +7,7 @@ const options = {
     Providers.Email({
       server: {
         port: 465,
-        host: 'smtp.gmail.com',
+        host: process.env.SMTP_SERVER,
         secure: true,
         auth: {
           user: process.env.EMAIL_USERNAME,
