@@ -6,9 +6,9 @@ const options = {
   providers: [
     Providers.Email({
       server: {
-        port: 465,
+        port: 587,
         host: process.env.SMTP_SERVER,
-        secure: true,
+        secure: false,
         auth: {
           user: process.env.EMAIL_USERNAME,
           pass: process.env.EMAIL_PASSWORD,
