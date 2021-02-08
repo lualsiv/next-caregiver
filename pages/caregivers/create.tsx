@@ -10,9 +10,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Col from 'react-bootstrap/Col';
 import { graphQLClient } from '../../utils/graphql-client';
-import { getAuthCookie } from '../../utils/auth-cookies';
 import utilStyles from '../../styles/utils.module.scss';
-import { getSession } from 'next-auth/client'
 import { useAuth } from '../../security/auth';
 
 const Create = () => {
