@@ -13,9 +13,10 @@ import { graphQLClient } from '../../utils/graphql-client';
 import { getAuthCookie } from '../../utils/auth-cookies';
 import utilStyles from '../../styles/utils.module.scss';
 import { getSession } from 'next-auth/client'
+import { useAuth } from '../../security/auth';
 
-const Create = ({ accessToken }) => {
-  
+const Create = () => {
+  const { session, loading } = useAuth();
   const [validated, setValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -24,11 +25,15 @@ const Create = ({ accessToken }) => {
     
     try {
       
+      setValidated(true);
+
       if (form.checkValidity() === false) {
         e.preventDefault();
         e.stopPropagation();
+        return;
       }
-        setValidated(true);
+        
+        
 
         e.preventDefault()
           const formData = new FormData(e.target),
@@ -51,7 +56,7 @@ const Create = ({ accessToken }) => {
             lastName:  formDataObj.lastName,
             telephone: formDataObj.telephone            
           };
-          await graphQLClient(accessToken).request(mutation, variables);
+          await graphQLClient(session.accessToken).request(mutation, variables);
           Router.push('/caregivers');
     } catch (error) {
       console.error(error);
@@ -145,18 +150,5 @@ const Create = ({ accessToken }) => {
     </>
   );
 };
-export async function getServerSideProps(ctx) {
-  const session = await getSession(ctx)
-    if (!session) {
-        ctx.res.writeHead(302, { Location: '/' })
-        ctx.res.end()
-        return {}
-    }
 
-    return {
-        props: {
-            accessToken: session.accessToken,
-        },
-    }
-}
 export default Create;

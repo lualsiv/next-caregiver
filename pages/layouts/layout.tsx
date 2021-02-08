@@ -2,7 +2,10 @@ import Head from 'next/head';
 import styles from './layout.module.scss';
 import Header from './Header';
 
-const Layout = ({ children }) => (
+const Layout = ({ children }) => {
+  
+
+  return(
   <>
     <Head>
       <title>Next Fauna Auth</title>
@@ -14,7 +17,7 @@ const Layout = ({ children }) => (
     <main>
       <div className={styles.container}>{children}</div>
     </main>
-  </>
-);
+  </>);
+}
 
 export default Layout;

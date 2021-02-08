@@ -1,29 +1,13 @@
 import styles from '../styles/Home.module.scss'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import {useAuth} from '../security/auth'
 
-export default function Home() {
-  const [session, loading] = useSession();
-
-  console.info('Home', loading)
-  if (loading) {
-    return <p>Loading...</p>
-  }
-
+function  Home() {
+  // const { user, loading } = useAuth();
   return (
     <>
-    <h1>Welcome the Caregivers App!</h1>
-      {!session && (
-        <>
-          Not signed in <br />
-          <button onClick={signIn}>Sign in</button>
-        </>
-      )}
-      {session && (
-        <>
-          Signed in as {session.user.email} <br />
-          <button onClick={signOut}>Sign out</button>
-        </>
-      )}
+    <h1>Welcome the Caregivers App!</h1>      
     </>
   )  
 }
+
+export default Home

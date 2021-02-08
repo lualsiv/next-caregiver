@@ -1,26 +1,20 @@
 // pages/index.js
 
 import * as React from 'react';
-import { InferGetStaticPropsType } from 'next';
 import useSWR from 'swr';
 import DataRow from './components/data-row';
-// import Link from 'next/link'; // add
 import { gql } from 'graphql-request';
 import { ICaregiver } from '../../types/caregivers';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { graphQLClient } from '../../utils/graphql-client';
-import { getAuthCookie } from '../../utils/auth-cookies';
-import { useSession, getSession } from 'next-auth/client'
+import {useAuth} from '../../security/auth'
 
-// const fetcher = (url) => fetch(url).then((r) => r.json());
+export default function Home() {
+    const { session, loading } = useAuth();
 
-export default function Home({ accessToken }) {
-    // const [session] = useSession();
-
-    // console.info('accessToken', accessToken)
-    const fetcher = async (query) => await graphQLClient(accessToken).request(query)
-    // const { data, error } = useSWR('/api/caregivers', fetcher);
+    const fetcher = async (query) => await graphQLClient(session.accessToken).request(query)
+    
     const { data, error, mutate } = useSWR(
         gql`
             {
@@ -85,17 +79,21 @@ export default function Home({ accessToken }) {
   );
 };
 
-export async function getServerSideProps(ctx) {
-    const session = await getSession(ctx)
-    if (!session) {
-        ctx.res.writeHead(302, { Location: '/' })
-        ctx.res.end()
-        return {}
-    }
+// export async function getServerSideProps(ctx) {
+//     const session = await getSession(ctx)
+//     if (!session) {
+//         // ctx.res.writeHead(302, { Location: '/' })
+//         // ctx.res.end()
+//         return {
+//             props: {
+//                 accessToken: null,
+//             },
+//         }
+//     }
 
-    return {
-        props: {
-            accessToken: session.accessToken,
-        },
-    }
-  }
+//     return {
+//         props: {
+//             accessToken: session.accessToken,
+//         },
+//     }
+//   }

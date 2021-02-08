@@ -22,6 +22,14 @@ const options = {
     })
   ],
   adapter: FaunaAdapter.Adapter(),
+  callbacks: {
+    redirect: async (url, _) => {
+      if (url === '/api/auth/signin') {
+        return Promise.resolve('/caregivers')
+      }
+      return Promise.resolve('/api/auth/signin')
+    },
+  },
 }
 
 export default (req, res) => NextAuth(req, res, options)

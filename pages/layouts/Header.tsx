@@ -1,27 +1,15 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
 import styles from './header.module.scss';
 import { signIn, signOut, useSession } from 'next-auth/client'
 
 const Header = () =>{
-    // const router = useRouter();
+    
     const [session] = useSession();
     
-    // const fetcher = (url) => fetch(url).then((r) => r.json());
-
-    // const { data: user, mutate: mutateUser } = useSWR('/api/auth/user', fetcher);
-    // const logout = async () => {
-    //     const res = await fetch('/api/auth/logout');
-    //     if (res.ok) {
-    //         mutateUser(null);
-    //         router.push('/login');
-    //     }
-    // };
+    
     return (
     <div className={styles.header}>
         <Head>
@@ -47,7 +35,7 @@ const Header = () =>{
                         </Nav>
                         {(session) &&
                             <Form inline>
-                                Signed in as {session.user.email}
+                                <strong>{session.user.email || session.user.name}</strong>
                                 <Button onClick={signOut} variant="outline-light">Logout</Button>
                             </Form>
                         }
